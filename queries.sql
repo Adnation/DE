@@ -45,4 +45,8 @@ AVG(trips.predicted_eta) -
 	trips.status = 'completed'
     ORDER BY predicted_eta DESC))
 ) / 2)
-FROM trips
+FROM trips INNER JOIN cities ON trips.city_id=cities.city_id
+WHERE 
+	cities.city_name IN ('Pembroke', 'Stamford') AND
+	trips.departure_date BETWEEN (CURDATE() - INTERVAL 360 DAY) AND CURDATE() AND
+	trips.status = 'completed'
